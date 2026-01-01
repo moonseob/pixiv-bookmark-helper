@@ -1,4 +1,3 @@
-import Logo from '@/assets/crx.svg';
 import { useState } from 'react';
 import './App.css';
 
@@ -13,8 +12,8 @@ function App() {
           <h1>HELLO CRXJS</h1>
         </div>
       )}
-      <button className='toggle-button' onClick={toggle}>
-        <img src={Logo} alt='CRXJS logo' className='button-icon' />
+      <button type='button' className='toggle-button' onClick={toggle}>
+        CRXJS logo
       </button>
     </div>
   );

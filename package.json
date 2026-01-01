@@ -1,7 +1,7 @@
 {
   "name": "pixiv-bookmark-helper",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@charcoal-ui/icons": "^5.1.0",
     "@charcoal-ui/react": "^5.1.0",
     "@charcoal-ui/styled": "^5.1.0",
     "@charcoal-ui/theme": "^5.1.0",
