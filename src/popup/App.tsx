@@ -1,22 +1,38 @@
-import crxLogo from '@/assets/crx.svg'
-import reactLogo from '@/assets/react.svg'
-import viteLogo from '@/assets/vite.svg'
-import HelloWorld from '@/components/HelloWorld'
-import './App.css'
+import { Button } from '@charcoal-ui/react';
+import styled from 'styled-components';
+import Header from '@/components/Header';
+import NavigationButton from '@/components/NavigateNextButton';
+import UserIdInput from '@/components/UserIdInput';
 
 export default function App() {
   return (
-    <div>
-      <a href="https://vite.dev" target="_blank" rel="noreferrer">
-        <img src={viteLogo} className="logo" alt="Vite logo" />
-      </a>
-      <a href="https://reactjs.org/" target="_blank" rel="noreferrer">
-        <img src={reactLogo} className="logo react" alt="React logo" />
-      </a>
-      <a href="https://crxjs.dev/vite-plugin" target="_blank" rel="noreferrer">
-        <img src={crxLogo} className="logo crx" alt="crx logo" />
-      </a>
-      <HelloWorld msg="Vite + React + CRXJS" />
-    </div>
-  )
+    <>
+      <Header />
+      <StyledContainer>
+        {/* TODO: 내비게이션을 사용해서 메인 화면과 서브 화면을 분리 */}
+        <UserIdInput />
+        <Button variant='Default' fullWidth>
+          Use my User ID
+        </Button>
+        <StyledHr />
+        <NavigationButton />
+      </StyledContainer>
+    </>
+  );
 }
+
+const StyledContainer = styled.main`
+  margin: 1em;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1em;
+`;
+
+const StyledHr = styled.hr`
+  align-self: stretch;
+  height: 1px;
+  background-color: var(--charcoal-text4);
+  outline: 0;
+  border: 0;
+  margin: 0;
+`;
