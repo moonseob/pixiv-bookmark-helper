@@ -49,12 +49,11 @@ const Container = styled.div`
   align-items: center;
   padding: 8px;
   gap: 8px;
-  font-size: 12px;
   text-align: start;
   color: var(--charcoal-text1);
   transition: background-color 0.2s;
   pixiv-icon {
-    font-size: 1em;
+    --size: 16px;
     color: var(--charcoal-text2)
   }
   &:hover {

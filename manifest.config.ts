@@ -30,7 +30,7 @@ export default defineManifest({
         default: 'Ctrl+Shift+B',
         mac: 'Ctrl+Shift+B',
       },
-      description: 'Jump to a random Pixiv bookmark',
+      description: 'Random bookmark',
     },
   },
 });
