@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This file is auto-generated.
 
 ## 0.1.0
 - Initial release with popup UI and random bookmark jump.
