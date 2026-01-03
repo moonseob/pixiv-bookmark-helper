@@ -1,0 +1,104 @@
+{
+  "app_name": {
+    "message": "pixiv Bookmark Helper"
+  },
+  "app_description": {
+    "message": "Helps navigate and manage pixiv bookmarks."
+  },
+  "action_title": {
+    "message": "pixiv Bookmark Helper"
+  },
+  "command_random_bookmark": {
+    "message": "Random bookmark"
+  },
+  "app_bar_title_main": {
+    "message": "Bookmark Helper"
+  },
+  "app_bar_title_help": {
+    "message": "Help"
+  },
+  "app_bar_back": {
+    "message": "Back"
+  },
+  "app_bar_close": {
+    "message": "Close"
+  },
+  "main_current_user": {
+    "message": "Current user"
+  },
+  "main_random_bookmark": {
+    "message": "Random Bookmark"
+  },
+  "main_please_wait": {
+    "message": "Please wait..."
+  },
+  "profile_please_login": {
+    "message": "Please log in"
+  },
+  "pixiv_blocked": {
+    "message": "Available only on the pixiv website."
+  },
+  "pixiv_checking": {
+    "message": "Checking site status..."
+  },
+  "help_keyboard_shortcuts_title": {
+    "message": "Keyboard shortcuts"
+  },
+  "help_keyboard_shortcuts_body": {
+    "message": "You can enable the shortcut using the button below."
+  },
+  "help_keyboard_shortcuts_recommend": {
+    "message": "Recommended shortcut: Ctrl+Shift+B."
+  },
+  "help_open_shortcuts": {
+    "message": "Open Shortcut Settings"
+  },
+  "help_github_title": {
+    "message": "GitHub"
+  },
+  "help_github_body": {
+    "message": "Open the repository for updates and issues."
+  },
+  "help_open_github": {
+    "message": "Open GitHub"
+  },
+  "status_login_required": {
+    "message": "Please log in to pixiv first."
+  },
+  "status_picking_random": {
+    "message": "Picking a random bookmark..."
+  },
+  "status_opening_random": {
+    "message": "Opening a random bookmark..."
+  },
+  "status_failed_jump": {
+    "message": "Failed to jump."
+  },
+  "status_open_pixiv_bookmarks": {
+    "message": "Open a pixiv bookmarks page first."
+  },
+  "status_visit_bookmarks": {
+    "message": "Visit a bookmarks page and try again."
+  },
+  "status_open_artwork_first": {
+    "message": "Open an artwork page first."
+  },
+  "status_not_bookmarked": {
+    "message": "This artwork is not in your bookmarks."
+  },
+  "status_removed_bookmark": {
+    "message": "Removed bookmark."
+  },
+  "status_failed_remove": {
+    "message": "Failed to remove bookmark."
+  },
+  "status_no_active_tab": {
+    "message": "No active tab."
+  },
+  "status_open_pixiv_tab": {
+    "message": "Open a pixiv tab first."
+  },
+  "status_unknown_error": {
+    "message": "Unknown error."
+  }
+}

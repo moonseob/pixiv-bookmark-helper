@@ -3,6 +3,7 @@ import { queryActiveTab, sendMessage } from '@/pixiv/chrome';
 import { isPixivBookmarksUrl } from '@/pixiv/urls';
 import type { SetStatus } from '@/popup/types';
 import { ExtensionMessageType } from '@/shared/messages';
+import { t } from '@/shared/i18n';
 
 interface JumpResponse {
   ok: boolean;
@@ -19,11 +20,11 @@ export const useRandomJump = (
   const handleJump = async () => {
     if (isJumping) return;
     if (!isLoggedIn) {
-      setStatus('Please log in to pixiv first.', 'error');
+      setStatus(t('status_login_required'), 'error');
       return;
     }
     setIsJumping(true);
-    setStatus('Picking a random bookmark...', 'idle');
+    setStatus(t('status_picking_random'), 'idle');
     try {
       const tab = await queryActiveTab();
       if (!isPixivBookmarksUrl(tab?.url)) {
@@ -35,18 +36,18 @@ export const useRandomJump = (
       if (!response.ok) {
         throw new Error(response.error ?? 'Failed to jump.');
       }
-      setStatus('Opening a random bookmark...', 'ready');
+      setStatus(t('status_opening_random'), 'ready');
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Failed to jump.';
       if (/log\s*in|login|user id|redirect/i.test(message)) {
-        setStatus('Please log in to pixiv first.', 'error');
+        setStatus(t('status_login_required'), 'error');
         return;
       }
       if (message.includes('Could not establish connection')) {
-        setStatus('Open a pixiv bookmarks page first.', 'error');
+        setStatus(t('status_open_pixiv_bookmarks'), 'error');
       } else if (message.includes('No saved bookmark stats')) {
-        setStatus('Visit a bookmarks page and try again.', 'error');
+        setStatus(t('status_visit_bookmarks'), 'error');
       } else {
         setStatus(message, 'error');
       }

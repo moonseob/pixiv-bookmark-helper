@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import AppBar from '@/components/AppBar';
 import PixivBlocked from '@/views/PixivBlocked';
 import PixivChecking from '@/views/PixivChecking';
+import { t } from '@/shared/i18n';
 import usePixivContext from './hooks/usePixivContext';
 import HelpPage from './Pages/HelpPage';
 import MainPage from './Pages/MainPage';
@@ -18,7 +19,9 @@ export default function App() {
   return (
     <div className='flex-column'>
       <AppBar
-        title={isHelpView ? 'Help' : 'Bookmark Helper'}
+        title={
+          isHelpView ? t('app_bar_title_help') : t('app_bar_title_main')
+        }
         onBack={isHelpView ? () => setView('main') : undefined}
       />
       {isHelpView ? (
@@ -32,7 +35,9 @@ export default function App() {
       )}
 
       {view !== 'help' && (
-        <StyledButton onClick={() => setView('help')}>Help</StyledButton>
+        <StyledButton onClick={() => setView('help')}>
+          {t('app_bar_title_help')}
+        </StyledButton>
       )}
     </div>
   );

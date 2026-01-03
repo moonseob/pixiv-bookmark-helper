@@ -1,5 +1,6 @@
 import { Button } from '@charcoal-ui/react';
 import styled from 'styled-components';
+import { t } from '@/shared/i18n';
 
 const SHORTCUTS_URL = 'chrome://extensions/shortcuts';
 const GITHUB_URL = 'https://github.com/moonseob/pixiv-bookmark-helper';
@@ -16,20 +17,18 @@ export default function HelpPage() {
   return (
     <Container className='surface'>
       <Section>
-        <SectionTitle>Keyboard shortcuts</SectionTitle>
-        <SectionText>
-          You can enable the shortcut using the button below.
-        </SectionText>
-        <SectionText>Recommended shortcut: Ctrl+Shift+B.</SectionText>
+        <SectionTitle>{t('help_keyboard_shortcuts_title')}</SectionTitle>
+        <SectionText>{t('help_keyboard_shortcuts_body')}</SectionText>
+        <SectionText>{t('help_keyboard_shortcuts_recommend')}</SectionText>
         <Button variant='Navigation' onClick={() => openUrl(SHORTCUTS_URL)}>
-          Open Shortcut Settings
+          {t('help_open_shortcuts')}
         </Button>
       </Section>
       <Section>
-        <SectionTitle>GitHub</SectionTitle>
-        <SectionText>Open the repository for updates and issues.</SectionText>
+        <SectionTitle>{t('help_github_title')}</SectionTitle>
+        <SectionText>{t('help_github_body')}</SectionText>
         <Button variant='Default' onClick={() => openUrl(GITHUB_URL)}>
-          Open GitHub
+          {t('help_open_github')}
         </Button>
       </Section>
     </Container>

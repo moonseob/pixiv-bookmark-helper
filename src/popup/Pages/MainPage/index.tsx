@@ -4,6 +4,7 @@ import ProfileCard from '@/components/ProfileCard';
 import { useLoginStatus } from '@/popup/hooks/useLoginStatus';
 import { useRandomJump } from '@/popup/hooks/useRandomJump';
 import { useUserProfile } from '@/popup/hooks/useUserProfile';
+import { t } from '@/shared/i18n';
 
 export default function MainPage() {
   const {
@@ -31,7 +32,7 @@ export default function MainPage() {
   return (
     <>
       <StyledSurface className='surface'>
-        <SectionTitle>Current user</SectionTitle>
+        <SectionTitle>{t('main_current_user')}</SectionTitle>
         <ProfileCard
           authStatus={authStatus}
           profile={profile}
@@ -46,7 +47,7 @@ export default function MainPage() {
         disabled={isJumping || isLoggedIn !== true}
         onClick={handleJump}
       >
-        {isJumping ? 'Please wait...' : 'Random Bookmark'}
+        {isJumping ? t('main_please_wait') : t('main_random_bookmark')}
       </StyledPrimaryButton>
     </>
   );

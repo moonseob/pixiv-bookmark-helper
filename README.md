@@ -40,6 +40,10 @@ Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv
   ```
 - Load the extension from the dev output if prompted by CRXJS, or continue using the `dist` folder after a build.
 
+## Localization
+- Keep `public/_locales/en/messages.json` as the source of truth.
+- When adding or changing UI/manifest strings, update all locale files.
+
 ## Future Goals
 - Allow unbookmarking via a button click.
 - Navigate to previous/next bookmark with left/right arrow keys (pixiv mobile app-style).

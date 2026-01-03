@@ -2,6 +2,7 @@ import { Icon, LoadingSpinner } from '@charcoal-ui/react';
 import styled from 'styled-components';
 import type { AuthStatus } from '@/popup/hooks/useLoginStatus';
 import type { UserProfile } from '@/storage/userProfile';
+import { t } from '@/shared/i18n';
 
 export default function ProfileCard({
   authStatus,
@@ -28,7 +29,7 @@ export default function ProfileCard({
       <div style={{ minWidth: 0 }}>
         <Name>
           {profile?.userId ||
-            (authStatus === 'needs_login' ? 'Please login' : '')}
+            (authStatus === 'needs_login' ? t('profile_please_login') : '')}
         </Name>
         <Sub>{profile?.name}</Sub>
       </div>

@@ -4,6 +4,7 @@ import { queryActiveTab } from '@/pixiv/chrome';
 import { fetchBookmarkInfoForArtwork, removeBookmark } from '@/pixiv/api';
 import { getRecentWorkIds, setRecentWorkIds } from '@/storage/recentHistory';
 import type { SetStatus } from '@/popup/types';
+import { t } from '@/shared/i18n';
 
 export const useBookmarkCleanup = (
   setStatus: SetStatus,
@@ -17,19 +18,19 @@ export const useBookmarkCleanup = (
   const handleRemoveBookmark = async () => {
     if (isRemovingBookmark) return;
     if (!isLoggedIn) {
-      setStatus('Please log in to pixiv first.', 'error');
+      setStatus(t('status_login_required'), 'error');
       return;
     }
     const trimmed = currentWorkId?.trim() ?? '';
     if (!trimmed) {
-      setStatus('Open an artwork page first.', 'error');
+      setStatus(t('status_open_artwork_first'), 'error');
       return;
     }
     setIsRemovingBookmark(true);
     try {
       const info = await fetchBookmarkInfoForArtwork(trimmed);
       if (!info.bookmarkId) {
-        setStatus('This artwork is not in your bookmarks.', 'error');
+        setStatus(t('status_not_bookmarked'), 'error');
         setIsRemovalBlocked(true);
         return;
       }
@@ -41,11 +42,16 @@ export const useBookmarkCleanup = (
       const recentWorkIds = await getRecentWorkIds();
       const nextRecent = recentWorkIds.filter((id) => id !== trimmed);
       await setRecentWorkIds(nextRecent);
-      setStatus('Removed bookmark.', 'ready');
+      setStatus(t('status_removed_bookmark'), 'ready');
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Failed to remove bookmark.';
-      setStatus(message, 'error');
+      setStatus(
+        message === 'Failed to remove bookmark.'
+          ? t('status_failed_remove')
+          : message,
+        'error',
+      );
     } finally {
       setIsRemovingBookmark(false);
     }

@@ -1,6 +1,7 @@
 import { IconButton } from '@charcoal-ui/react';
 import styled from 'styled-components';
 import logo from '/logo.png?url';
+import { t } from '@/shared/i18n';
 
 type AppBarProps = {
   title?: string;
@@ -8,14 +9,14 @@ type AppBarProps = {
 };
 
 export default function AppBar({
-  title = 'Bookmark Helper',
+  title = t('app_bar_title_main'),
   onBack,
 }: AppBarProps) {
   const handleCloseClick = () => window.close();
   return (
     <StyledAppBar>
       {onBack ? (
-        <IconButton icon='24/Prev' title='Back' onClick={onBack} />
+        <IconButton icon='24/Prev' title={t('app_bar_back')} onClick={onBack} />
       ) : (
         <StyledIcon>
           <img src={logo} alt='' width={16} />
@@ -25,7 +26,7 @@ export default function AppBar({
       <div className='flex-spacer' />
       <StyledIconButton
         icon='16/Remove'
-        title='Close'
+        title={t('app_bar_close')}
         onClick={handleCloseClick}
       />
     </StyledAppBar>

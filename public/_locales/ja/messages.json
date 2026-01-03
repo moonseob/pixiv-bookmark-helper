@@ -1,0 +1,104 @@
+{
+  "app_name": {
+    "message": "pixiv ブックマークツール"
+  },
+  "app_description": {
+    "message": "pixivのブックマークの閲覧と管理を支援します。"
+  },
+  "action_title": {
+    "message": "pixiv ブックマークツール"
+  },
+  "command_random_bookmark": {
+    "message": "ランダムブックマーク"
+  },
+  "app_bar_title_main": {
+    "message": "ブックマークツール"
+  },
+  "app_bar_title_help": {
+    "message": "ヘルプ"
+  },
+  "app_bar_back": {
+    "message": "戻る"
+  },
+  "app_bar_close": {
+    "message": "閉じる"
+  },
+  "main_current_user": {
+    "message": "現在のユーザー"
+  },
+  "main_random_bookmark": {
+    "message": "ランダムブックマーク"
+  },
+  "main_please_wait": {
+    "message": "しばらくお待ちください..."
+  },
+  "profile_please_login": {
+    "message": "ログインしてください"
+  },
+  "pixiv_blocked": {
+    "message": "pixivのサイトでのみ利用できます。"
+  },
+  "pixiv_checking": {
+    "message": "サイトの状態を確認中..."
+  },
+  "help_keyboard_shortcuts_title": {
+    "message": "キーボードショートカット"
+  },
+  "help_keyboard_shortcuts_body": {
+    "message": "下のボタンからショートカットを有効にできます。"
+  },
+  "help_keyboard_shortcuts_recommend": {
+    "message": "推奨ショートカット: Ctrl+Shift+B."
+  },
+  "help_open_shortcuts": {
+    "message": "ショートカット設定を開く"
+  },
+  "help_github_title": {
+    "message": "GitHub"
+  },
+  "help_github_body": {
+    "message": "更新と不具合報告のためにリポジトリを開きます。"
+  },
+  "help_open_github": {
+    "message": "GitHubを開く"
+  },
+  "status_login_required": {
+    "message": "pixivにログインしてください。"
+  },
+  "status_picking_random": {
+    "message": "ランダムブックマークを選択中..."
+  },
+  "status_opening_random": {
+    "message": "ランダムブックマークを開いています..."
+  },
+  "status_failed_jump": {
+    "message": "移動に失敗しました。"
+  },
+  "status_open_pixiv_bookmarks": {
+    "message": "pixivのブックマークページを開いてください。"
+  },
+  "status_visit_bookmarks": {
+    "message": "ブックマークページにアクセスしてから再試行してください。"
+  },
+  "status_open_artwork_first": {
+    "message": "作品ページを開いてください。"
+  },
+  "status_not_bookmarked": {
+    "message": "この作品はブックマークにありません。"
+  },
+  "status_removed_bookmark": {
+    "message": "ブックマークを削除しました。"
+  },
+  "status_failed_remove": {
+    "message": "ブックマークの削除に失敗しました。"
+  },
+  "status_no_active_tab": {
+    "message": "アクティブなタブがありません。"
+  },
+  "status_open_pixiv_tab": {
+    "message": "pixivのタブを開いてください。"
+  },
+  "status_unknown_error": {
+    "message": "不明なエラーです。"
+  }
+}
