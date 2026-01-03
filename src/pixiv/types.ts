@@ -85,3 +85,28 @@ export interface PixivResponse {
   message: string;
   body?: PixivResponseBody;
 }
+
+export interface PixivUserResponse {
+  body: {
+    background: {
+      color: string | null;
+      isPrivate: false;
+      repeat: null;
+      url: string;
+    } | null;
+    // commission: null;
+    image: string;
+    imageBig: string;
+    isBlocking: boolean;
+    isFollowed: boolean;
+    isMypixiv: boolean;
+    name: string;
+    partial: 0;
+    premium: boolean;
+    sketchLiveId: null;
+    sketchLives: [];
+    userId: string;
+  };
+  error: boolean;
+  message: string;
+}

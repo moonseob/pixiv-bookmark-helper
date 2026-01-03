@@ -1,9 +1,8 @@
-import { isPixivBookmarksUrl } from '@/pixiv/urls';
-import { ExtensionMessageType } from '@/shared/messages';
-import { queryActiveTab, sendMessage } from '@/pixiv/chrome';
-import type { SetStatus } from '@/popup/types';
-import { setLoginStatus } from '@/storage/loginStatus';
 import { useState } from 'react';
+import { queryActiveTab, sendMessage } from '@/pixiv/chrome';
+import { isPixivBookmarksUrl } from '@/pixiv/urls';
+import type { SetStatus } from '@/popup/types';
+import { ExtensionMessageType } from '@/shared/messages';
 
 interface JumpResponse {
   ok: boolean;
@@ -20,7 +19,7 @@ export const useRandomJump = (
   const handleJump = async () => {
     if (isJumping) return;
     if (!isLoggedIn) {
-      setStatus('Please log in to Pixiv first.', 'error');
+      setStatus('Please log in to pixiv first.', 'error');
       return;
     }
     setIsJumping(true);
@@ -41,12 +40,11 @@ export const useRandomJump = (
       const message =
         error instanceof Error ? error.message : 'Failed to jump.';
       if (/log\s*in|login|user id|redirect/i.test(message)) {
-        setStatus('Please log in to Pixiv first.', 'error');
-        await setLoginStatus({ isLoggedIn: false, checkedAt: Date.now() });
+        setStatus('Please log in to pixiv first.', 'error');
         return;
       }
       if (message.includes('Could not establish connection')) {
-        setStatus('Open a Pixiv bookmarks page first.', 'error');
+        setStatus('Open a pixiv bookmarks page first.', 'error');
       } else if (message.includes('No saved bookmark stats')) {
         setStatus('Visit a bookmarks page and try again.', 'error');
       } else {

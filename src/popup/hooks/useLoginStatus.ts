@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { sendMessage } from '@/pixiv/chrome';
 import { ExtensionMessageType } from '@/shared/messages';
-import { getLoginStatus, setLoginStatus } from '@/storage/loginStatus';
+import {
+  clearSessionUser,
+  getSessionUser,
+  setSessionUser,
+} from '@/storage/sessionUser';
 
-type AuthStatus = 'checking' | 'ready' | 'needs_login' | 'error';
+export type AuthStatus = 'checking' | 'ready' | 'needs_login' | 'error';
 
 interface ResolveUserIdResponse {
   ok: boolean;
@@ -12,74 +16,53 @@ interface ResolveUserIdResponse {
 }
 
 export const useLoginStatus = (enabled = true) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>('checking');
-  const [message, setMessage] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  // const [profile, setProfile] = useState<UserProfile | null>(null);
 
-  const checkLogin = () => {
-    if (!enabled) {
-      return;
-    }
-    setAuthStatus('checking');
-    setMessage(null);
-    getLoginStatus()
-      .then((status) => {
-        if (status) {
-          setIsLoggedIn(status.isLoggedIn);
-          setAuthStatus(status.isLoggedIn ? 'ready' : 'needs_login');
-          setMessage(
-            status.isLoggedIn ? null : 'Please log in to Pixiv first.',
-          );
+  const checkLogin = useCallback(
+    async (force = false) => {
+      if (!enabled) {
+        return;
+      }
+      setAuthStatus('checking');
+
+      if (!force) {
+        const cached = await getSessionUser();
+        if (cached?.userId) {
+          setAuthStatus('ready');
+          setUserId(cached.userId);
           return;
         }
-        return sendMessage<ResolveUserIdResponse>({
-          type: ExtensionMessageType.ResolveUserId,
-        })
-          .then((response) => {
-            if (response.ok && response.userId) {
-              setIsLoggedIn(true);
-              setAuthStatus('ready');
-              setMessage(null);
-              return setLoginStatus({
-                isLoggedIn: true,
-                checkedAt: Date.now(),
-              });
-            }
-            const errorText = response.error ?? '';
-            const needsLogin =
-              /log\s*in|login/i.test(errorText) ||
-              /resolve user id/i.test(errorText);
-            setIsLoggedIn(false);
-            setAuthStatus(needsLogin ? 'needs_login' : 'error');
-            setMessage(
-              needsLogin
-                ? 'Please log in to Pixiv first.'
-                : 'An unknown error occurred.',
-            );
-            if (needsLogin) {
-              return setLoginStatus({
-                isLoggedIn: false,
-                checkedAt: Date.now(),
-              });
-            }
-          })
-          .catch(() => {
-            setIsLoggedIn(false);
-            setAuthStatus('needs_login');
-            setMessage('Please log in to Pixiv first.');
-            return setLoginStatus({ isLoggedIn: false, checkedAt: Date.now() });
-          });
-      })
-      .catch(() => {
-        setIsLoggedIn(false);
-        setAuthStatus('error');
-        setMessage('An unknown error occurred.');
-      });
-  };
+      }
+
+      try {
+        const response = await sendMessage<ResolveUserIdResponse>({
+          type: ExtensionMessageType.ResolveUser,
+        });
+        if (response.ok && response.userId) {
+          setAuthStatus('ready');
+          setUserId(response.userId);
+          await setSessionUser(response.userId);
+          return;
+        }
+        throw new Error(response.error ?? 'Failed to resolve user ID.');
+      } catch {
+        setAuthStatus('needs_login');
+        setUserId(null);
+        await clearSessionUser();
+      }
+    },
+    [enabled],
+  );
 
   useEffect(() => {
-    checkLogin();
-  }, [enabled]);
+    void checkLogin();
+  }, [checkLogin]);
 
-  return { isLoggedIn, authStatus, message, retry: checkLogin };
+  return {
+    authStatus,
+    userId,
+    refresh: () => checkLogin(true),
+  };
 };

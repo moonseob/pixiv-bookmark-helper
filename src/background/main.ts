@@ -3,13 +3,13 @@ import {
   fetchTotalBookmarks,
   pickRandomWork,
 } from '@/pixiv/api';
+import { queryActiveTab } from '@/pixiv/chrome';
 import { DEFAULT_BOOKMARKS_PER_PAGE } from '@/pixiv/constants';
 import { buildArtworkUrl } from '@/pixiv/urls';
-import { queryActiveTab } from '@/pixiv/chrome';
 import { ExtensionMessageType } from '@/shared/messages';
 import { getBookmarkStats, setBookmarkStats } from '@/storage/bookmarkStats';
 import { getRecentWorkIds, setRecentWorkIds } from '@/storage/recentHistory';
-import { getSessionUserId, setSessionUserId } from '@/storage/sessionUserId';
+import { getSessionUser, setSessionUser } from '@/storage/sessionUser';
 
 const LOG_PREFIX = '[pixiv Bookmark Helper]';
 const RECENT_HISTORY_LIMIT = 10;
@@ -57,27 +57,28 @@ const extractUserId = (url?: string) =>
   url?.match(/pixiv\.net\/users\/(\d+)/)?.[1] ?? null;
 
 const resolveUserIdFromRedirect = async () => {
-  const response = await fetch('https://www.pixiv.net/bookmark.php', {
-    credentials: 'include',
-  });
-  if (!response.ok) {
-    let responseText = '';
-    try {
-      responseText = await response.text();
-    } catch {
-      responseText = '(failed to read response body)';
-    }
-    console.warn(LOG_PREFIX, 'UserId redirect request failed.', {
-      status: response.status,
-      statusText: response.statusText,
-      url: response.url,
-      body: responseText,
+  let response: Response;
+  try {
+    response = await fetch('https://www.pixiv.net/bookmark.php', {
+      credentials: 'include',
     });
-    throw new Error(`UserId redirect failed: ${response.status}`);
+  } catch (error) {
+    console.warn(LOG_PREFIX, 'UserId redirect request failed.', {
+      message: error instanceof Error ? error.message : error,
+    });
+    throw new Error('Please log in to pixiv first.');
   }
-  const userId = extractUserId(response.url);
+
+  const redirectUrl = response.url;
+  if (redirectUrl.includes('accounts.pixiv.net')) {
+    throw new Error('Please log in to pixiv first.');
+  }
+  if (!redirectUrl.includes('/bookmarks')) {
+    throw new Error('Please log in to pixiv first.');
+  }
+  const userId = extractUserId(redirectUrl);
   if (!userId) {
-    throw new Error('Failed to resolve user id. Are you logged in?');
+    throw new Error('Please log in to pixiv first.');
   }
   return userId;
 };
@@ -95,7 +96,8 @@ const buildStats = async (userId: string, tagName = '') => {
 
 const ensureBookmarkStats = async () => {
   const stored = await getBookmarkStats();
-  const cachedUserId = await getSessionUserId();
+  const cachedUser = await getSessionUser();
+  const cachedUserId = cachedUser?.userId ?? null;
   const resolvedUserId = cachedUserId ?? (await resolveUserIdFromRedirect());
 
   if (stored?.userId === resolvedUserId) {
@@ -105,7 +107,7 @@ const ensureBookmarkStats = async () => {
   const stats = await buildStats(resolvedUserId);
   await setBookmarkStats(stats);
   if (!cachedUserId) {
-    await setSessionUserId(resolvedUserId);
+    await setSessionUser(resolvedUserId);
   }
   return stats;
 };
@@ -175,12 +177,12 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message?.type !== ExtensionMessageType.ResolveUserId) return;
+  if (message?.type !== ExtensionMessageType.ResolveUser) return;
   resolveUserIdFromRedirect()
     .then(async (userId) => {
       const stats = await buildStats(userId);
       await setBookmarkStats(stats);
-      await setSessionUserId(userId);
+      await setSessionUser(userId);
       sendResponse({ ok: true, userId } satisfies ResolveUserIdResponse);
     })
     .catch((error) => {

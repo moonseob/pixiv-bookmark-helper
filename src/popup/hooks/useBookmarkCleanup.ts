@@ -17,7 +17,7 @@ export const useBookmarkCleanup = (
   const handleRemoveBookmark = async () => {
     if (isRemovingBookmark) return;
     if (!isLoggedIn) {
-      setStatus('Please log in to Pixiv first.', 'error');
+      setStatus('Please log in to pixiv first.', 'error');
       return;
     }
     const trimmed = currentWorkId?.trim() ?? '';
@@ -60,11 +60,15 @@ export const useBookmarkCleanup = (
       setIsOnArtworkPage(Boolean(workId));
       setIsRemovalBlocked(false);
     };
-    queryActiveTab()
-      .then((tab) => applyTab(tab))
-      .catch(() => {
+    const loadTab = async () => {
+      try {
+        const tab = await queryActiveTab();
+        applyTab(tab);
+      } catch {
         // ignore storage errors on load
-      });
+      }
+    };
+    void loadTab();
     const handleUpdated = (
       _tabId: number,
       changeInfo: { url?: string },

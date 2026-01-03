@@ -1,5 +1,6 @@
 import { fetchArtworkPageData, fetchWithCsrfToken } from '@/pixiv/auth';
-import type { PixivResponse, PixivWork } from './types';
+import type { UserProfile } from '@/storage/userProfile';
+import type { PixivResponse, PixivUserResponse, PixivWork } from './types';
 
 export const buildBookmarksApiUrl = (
   userId: string,
@@ -21,7 +22,7 @@ export const buildBookmarksApiUrl = (
 const fetchPixiv = async (url: string) => {
   const response = await fetch(url, { credentials: 'include' });
   if (!response.ok) {
-    throw new Error(`Pixiv API error: ${response.status}`);
+    throw new Error(`pixiv API error: ${response.status}`);
   }
   return (await response.json()) as PixivResponse;
 };
@@ -40,7 +41,7 @@ export const fetchTotalBookmarks = async (userId: string, tagName: string) => {
   const data = await fetchBookmarkPage(userId, tagName, 0, 1);
   const total = data.body?.total;
   if (typeof total !== 'number' || Number.isNaN(total)) {
-    throw new Error('Missing total count from Pixiv API.');
+    throw new Error('Missing total count from pixiv API.');
   }
   return total;
 };
@@ -61,10 +62,7 @@ export const fetchBookmarkInfoForArtwork = async (
   workId: string,
 ): Promise<BookmarkInfo> => fetchArtworkPageData(workId);
 
-export const removeBookmark = async (
-  workId: string,
-  info?: BookmarkInfo,
-) => {
+export const removeBookmark = async (workId: string, info?: BookmarkInfo) => {
   console.log('[bookmark-remove] start', { workId });
   const { csrfToken, bookmarkId } =
     info ?? (await fetchArtworkPageData(workId));
@@ -73,7 +71,7 @@ export const removeBookmark = async (
     bookmarkId,
   });
   if (!csrfToken) {
-    throw new Error('Failed to read Pixiv token.');
+    throw new Error('Failed to read pixiv token.');
   }
   if (!bookmarkId) {
     throw new Error('Failed to resolve bookmark ID.');
@@ -98,6 +96,24 @@ export const removeBookmark = async (
   if (data.error) {
     throw new Error(data.message ?? 'Failed to remove bookmark.');
   }
+};
+
+export const fetchUserProfile = async (
+  userId: string,
+): Promise<UserProfile> => {
+  const response = await fetch(`https://www.pixiv.net/ajax/user/${userId}`, {
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user profile: ${response.status}`);
+  }
+  const data = (await response.json()) as PixivUserResponse;
+  const body: PixivUserResponse['body'] = data.body;
+  return {
+    userId: body.userId,
+    name: body.name,
+    image: body.imageBig ?? body.image,
+  };
 };
 
 export const addBookmark = async (workId: string) => {

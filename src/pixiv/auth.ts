@@ -35,14 +35,16 @@ const findTokenFromNextData = (node: unknown): string | null => {
   return null;
 };
 
-const getTokenFromServerSerializedState = (nextData: unknown): string | null => {
+const getTokenFromServerSerializedState = (
+  nextData: unknown,
+): string | null => {
   if (!nextData || typeof nextData !== 'object') return null;
   const props = (nextData as Record<string, unknown>).props;
   if (!props || typeof props !== 'object') return null;
   const pageProps = (props as Record<string, unknown>).pageProps;
   if (!pageProps || typeof pageProps !== 'object') return null;
-  const state =
-    (pageProps as Record<string, unknown>).serverSerializedPreloadedState;
+  const state = (pageProps as Record<string, unknown>)
+    .serverSerializedPreloadedState;
   if (typeof state !== 'string') return null;
   try {
     const parsed = JSON.parse(state) as unknown;
@@ -58,8 +60,8 @@ const getServerSerializedState = (nextData: unknown): unknown | null => {
   if (!props || typeof props !== 'object') return null;
   const pageProps = (props as Record<string, unknown>).pageProps;
   if (!pageProps || typeof pageProps !== 'object') return null;
-  const state =
-    (pageProps as Record<string, unknown>).serverSerializedPreloadedState;
+  const state = (pageProps as Record<string, unknown>)
+    .serverSerializedPreloadedState;
   if (typeof state !== 'string') return null;
   try {
     return JSON.parse(state) as unknown;
@@ -99,11 +101,13 @@ export const fetchArtworkPageData = async (workId: string) => {
   const url = `https://www.pixiv.net/artworks/${workId}`;
   const response = await fetch(url, { credentials: 'include' });
   if (!response.ok) {
-    throw new Error('Failed to load Pixiv page.');
+    throw new Error('Failed to load pixiv page.');
   }
   const html = await response.text();
   const nextData = parseNextData(html);
-  const tokenFromState = nextData ? getTokenFromServerSerializedState(nextData) : null;
+  const tokenFromState = nextData
+    ? getTokenFromServerSerializedState(nextData)
+    : null;
   const tokenFromNext = nextData ? findTokenFromNextData(nextData) : null;
   const state = nextData ? getServerSerializedState(nextData) : null;
   const bookmarkId = state ? findBookmarkIdFromState(state, workId) : null;
@@ -129,15 +133,14 @@ export const fetchArtworkPageData = async (workId: string) => {
   const ajaxBookmarkId = ajaxData.body?.bookmarkData?.id;
   return {
     csrfToken,
-    bookmarkId:
-      ajaxBookmarkId == null ? null : String(ajaxBookmarkId),
+    bookmarkId: ajaxBookmarkId == null ? null : String(ajaxBookmarkId),
   };
 };
 
 export const getCsrfTokenFromHtml = async (url: string) => {
   const response = await fetch(url, { credentials: 'include' });
   if (!response.ok) {
-    throw new Error('Failed to load Pixiv page.');
+    throw new Error('Failed to load pixiv page.');
   }
   const html = await response.text();
   const nextData = parseNextData(html);
@@ -155,7 +158,7 @@ export const getCsrfTokenFromHtml = async (url: string) => {
   if (metaMatch?.[1]) {
     return metaMatch[1];
   }
-  throw new Error('Failed to read Pixiv token.');
+  throw new Error('Failed to read pixiv token.');
 };
 
 type FetchWithCsrfOptions = {

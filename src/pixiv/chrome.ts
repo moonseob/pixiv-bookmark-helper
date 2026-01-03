@@ -10,7 +10,7 @@ export const queryActiveTab = () =>
     });
   });
 
-export const sendMessage = <TResponse,>(message: unknown) =>
+export const sendMessage = <TResponse>(message: unknown) =>
   new Promise<TResponse>((resolve, reject) => {
     chrome.runtime.sendMessage(message, (response) => {
       const err = chrome.runtime.lastError;
