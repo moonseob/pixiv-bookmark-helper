@@ -183,10 +183,22 @@ const fetchRandomWorkId = async () => {
   return randomWork.id;
 };
 
+const isPixivUrl = (url?: string) => {
+  if (!url) return false;
+  try {
+    return new URL(url).hostname === 'www.pixiv.net';
+  } catch {
+    return false;
+  }
+};
+
 const handleJumpRequest = async () => {
   const tab = await queryActiveTab();
   if (!tab) {
     throw new Error('No active tab.');
+  }
+  if (!isPixivUrl(tab.url)) {
+    throw new Error('Open a Pixiv tab first.');
   }
 
   const workId = await fetchRandomWorkId();
