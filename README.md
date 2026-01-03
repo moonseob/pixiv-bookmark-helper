@@ -1,30 +1,34 @@
 # pixiv Bookmark Helper
 
 A lightweight browser extension that helps you navigate and manage pixiv bookmarks.
-Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv.net.
-
-## Overview
-- Works only on `www.pixiv.net` and requires you to be logged in.
-- UI is shown through the extension popup (no content scripts).
-- Login state is checked and cached in session storage.
 
 ## Features
 - Jump to a random bookmark.
-- Bookmark tag filter support.
+- Bookmark tag filter synced from pixiv bookmark pages.
+- Optional keyboard shortcut for random jumps (configurable in Chrome).
 - Login-aware UI state and pixiv-only activation.
 
-## Install
-1. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-2. Build the extension:
-   ```bash
-   pnpm build
-   ```
+## Overview
+<img width="1280" height="800" alt="スクリーンショット 2026-01-04 4 44 33" src="https://github.com/user-attachments/assets/66b42616-4400-414a-8bec-8308227500b5" />
+
+- Works only on `www.pixiv.net` and requires you to be logged in.
+- UI is shown through the extension popup (no content scripts).
+- Login state is checked and cached in session storage.
+- Keyboard shortcut support for random bookmarks (optional).
+
+## Installation
+> Chrome Web Store review is currently pending.
+
+1. Download the latest release ZIP from [Releases](https://github.com/moonseob/pixiv-bookmark-helper/releases)
+2. Unzip the downloaded file.
 3. Open `chrome://extensions` in Chrome (or Chromium-based browser).
 4. Enable Developer mode.
-5. Click "Load unpacked" and select the `dist` directory.
+5. Click "Load unpacked" and select the extracted folder that contains `manifest.json`.
+
+## Built With
+- [CRXJS](https://crxjs.dev) + Vite.
+- React + TypeScript.
+- [@charcoal-ui](https://github.com/pixiv/charcoal) by pixiv
 
 ## Development
 - Use the project Node.js version with pnpm:
@@ -41,7 +45,7 @@ Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv
   ```
 - Load the extension from the dev output if prompted by CRXJS, or continue using the `dist` folder after a build.
 
-## Localization
+### Localization
 - Keep `public/_locales/en/messages.json` as the source of truth.
 - When adding or changing UI/manifest strings, update all locale files.
 
@@ -52,4 +56,4 @@ Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv
 - Support private bookmarks.
 
 ## Disclaimer
-This project is not affiliated with pixiv Inc. Use at your own risk; any disadvantages or damages resulting from using this program are the responsibility of each user.
+This project is not affiliated with pixiv inc. Use at your own risk; any disadvantages or damages resulting from using this program are the responsibility of each user.
