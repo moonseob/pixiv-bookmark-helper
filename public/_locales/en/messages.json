@@ -62,6 +62,9 @@
   "help_open_github": {
     "message": "Open GitHub"
   },
+  "help_disclaimer": {
+    "message": "This project is not affiliated with pixiv Inc. \"pixiv\" is a registered trademark of pixiv Inc."
+  },
   "status_login_required": {
     "message": "Please log in to pixiv first."
   },

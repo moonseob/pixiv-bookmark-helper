@@ -62,6 +62,9 @@
   "help_open_github": {
     "message": "GitHubを開く"
   },
+  "help_disclaimer": {
+    "message": "このアプリケーションはpixiv Inc.とは提携していません。\"pixiv\"はpixiv Inc.の登録商標です。"
+  },
   "status_login_required": {
     "message": "pixivにログインしてください。"
   },

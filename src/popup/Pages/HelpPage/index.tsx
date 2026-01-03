@@ -31,6 +31,11 @@ export default function HelpPage() {
           {t('help_open_github')}
         </Button>
       </Section>
+      <Section>
+        <SectionText>
+          {t('help_disclaimer')}
+        </SectionText>
+      </Section>
     </Container>
   );
 }
