@@ -20,6 +20,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "i18n:check": "node scripts/i18n-check.cjs",
     "format": "biome format . --write",
     "preview": "vite preview",
     "prepare": "husky"
