@@ -1,5 +1,6 @@
 import { Button } from '@charcoal-ui/react';
 import styled from 'styled-components';
+import { Card, CardBody, CardText, CardTitle } from '@/components/Card';
 import { t } from '@/shared/i18n';
 
 const SHORTCUTS_URL = 'chrome://extensions/shortcuts';
@@ -16,26 +17,30 @@ const openUrl = (url: string) => {
 export default function HelpPage() {
   return (
     <Container className='surface'>
-      <Section>
-        <SectionTitle>{t('help_keyboard_shortcuts_title')}</SectionTitle>
-        <SectionText>{t('help_keyboard_shortcuts_body')}</SectionText>
-        <SectionText>{t('help_keyboard_shortcuts_recommend')}</SectionText>
+      <Card>
+        <CardTitle>{t('help_keyboard_shortcuts_title')}</CardTitle>
+        <CardBody>
+          <CardText>{t('help_keyboard_shortcuts_body')}</CardText>
+          <CardText>{t('help_keyboard_shortcuts_recommend')}</CardText>
+        </CardBody>
         <Button variant='Navigation' onClick={() => openUrl(SHORTCUTS_URL)}>
           {t('help_open_shortcuts')}
         </Button>
-      </Section>
-      <Section>
-        <SectionTitle>{t('help_github_title')}</SectionTitle>
-        <SectionText>{t('help_github_body')}</SectionText>
+      </Card>
+      <Card>
+        <CardTitle>{t('help_github_title')}</CardTitle>
+        <CardBody>
+          <CardText>{t('help_github_body')}</CardText>
+        </CardBody>
         <Button variant='Default' onClick={() => openUrl(GITHUB_URL)}>
           {t('help_open_github')}
         </Button>
-      </Section>
-      <Section>
-        <SectionText>
-          {t('help_disclaimer')}
-        </SectionText>
-      </Section>
+      </Card>
+      <Card>
+        <CardBody>
+          <CardText>{t('help_disclaimer')}</CardText>
+        </CardBody>
+      </Card>
     </Container>
   );
 }
@@ -43,27 +48,8 @@ export default function HelpPage() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   padding: 8px;
   margin: 8px;
   overflow: auto;
-`;
-
-const Section = styled.section`
-  background: var(--charcoal-surface2);
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const SectionTitle = styled.h3`
-  margin: 0;
-  font-weight: 600;
-`;
-
-const SectionText = styled.p`
-  margin: 0;
-  color: var(--charcoal-text2);
 `;

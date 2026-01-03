@@ -10,6 +10,7 @@ Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv
 
 ## Features
 - Jump to a random bookmark.
+- Bookmark tag filter support.
 - Login-aware UI state and pixiv-only activation.
 
 ## Install
@@ -47,8 +48,8 @@ Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv
 ## Future Goals
 - Allow unbookmarking via a button click.
 - Navigate to previous/next bookmark with left/right arrow keys (pixiv mobile app-style).
-- Support bookmark tags.
 - Support more bookmark types (illustrations/manga, novels, collections).
+- Support private bookmarks.
 
 ## Disclaimer
 This project is not affiliated with pixiv Inc. Use at your own risk; any disadvantages or damages resulting from using this program are the responsibility of each user.

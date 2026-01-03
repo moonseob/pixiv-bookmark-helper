@@ -29,8 +29,26 @@
   "main_random_bookmark": {
     "message": "Random Bookmark"
   },
+  "main_refresh_user": {
+    "message": "Refresh user"
+  },
   "main_please_wait": {
     "message": "Please wait..."
+  },
+  "main_tag_filter": {
+    "message": "Tag filter"
+  },
+  "main_tag_all": {
+    "message": "None"
+  },
+  "main_tag_help_show": {
+    "message": "Show tag help"
+  },
+  "main_tag_help_hide": {
+    "message": "Hide tag help"
+  },
+  "main_tag_uncategorized": {
+    "message": "Uncategorized"
   },
   "profile_please_login": {
     "message": "Please log in"
@@ -49,6 +67,9 @@
   },
   "help_keyboard_shortcuts_recommend": {
     "message": "Recommended shortcut: Ctrl+Shift+B."
+  },
+  "help_tag_body": {
+    "message": "When a tag filter is set, random picks run only within items that carry that tag.\nSelect a bookmark tag on pixiv to sync the filter here."
   },
   "help_open_shortcuts": {
     "message": "Open Shortcut Settings"
@@ -74,9 +95,6 @@
   "status_opening_random": {
     "message": "Opening a random bookmark..."
   },
-  "status_failed_jump": {
-    "message": "Failed to jump."
-  },
   "status_open_pixiv_bookmarks": {
     "message": "Open a pixiv bookmarks page first."
   },
@@ -94,14 +112,5 @@
   },
   "status_failed_remove": {
     "message": "Failed to remove bookmark."
-  },
-  "status_no_active_tab": {
-    "message": "No active tab."
-  },
-  "status_open_pixiv_tab": {
-    "message": "Open a pixiv tab first."
-  },
-  "status_unknown_error": {
-    "message": "Unknown error."
   }
 }

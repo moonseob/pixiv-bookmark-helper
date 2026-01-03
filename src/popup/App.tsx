@@ -2,9 +2,9 @@ import { Button } from '@charcoal-ui/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import AppBar from '@/components/AppBar';
+import { t } from '@/shared/i18n';
 import PixivBlocked from '@/views/PixivBlocked';
 import PixivChecking from '@/views/PixivChecking';
-import { t } from '@/shared/i18n';
 import usePixivContext from './hooks/usePixivContext';
 import HelpPage from './Pages/HelpPage';
 import MainPage from './Pages/MainPage';
@@ -19,9 +19,7 @@ export default function App() {
   return (
     <div className='flex-column'>
       <AppBar
-        title={
-          isHelpView ? t('app_bar_title_help') : t('app_bar_title_main')
-        }
+        title={isHelpView ? t('app_bar_title_help') : t('app_bar_title_main')}
         onBack={isHelpView ? () => setView('main') : undefined}
       />
       {isHelpView ? (

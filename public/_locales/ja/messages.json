@@ -29,8 +29,26 @@
   "main_random_bookmark": {
     "message": "ランダムブックマーク"
   },
+  "main_refresh_user": {
+    "message": "ユーザーを更新"
+  },
   "main_please_wait": {
     "message": "しばらくお待ちください..."
+  },
+  "main_tag_filter": {
+    "message": "タグフィルター"
+  },
+  "main_tag_all": {
+    "message": "未設定"
+  },
+  "main_tag_help_show": {
+    "message": "タグヘルプを開く"
+  },
+  "main_tag_help_hide": {
+    "message": "タグヘルプを閉じる"
+  },
+  "main_tag_uncategorized": {
+    "message": "未分類"
   },
   "profile_please_login": {
     "message": "ログインしてください"
@@ -49,6 +67,9 @@
   },
   "help_keyboard_shortcuts_recommend": {
     "message": "推奨ショートカット: Ctrl+Shift+B."
+  },
+  "help_tag_body": {
+    "message": "タグフィルターを設定すると、そのタグが付いた項目だけでランダムが実行されます。\npixivでブックマークタグを選ぶと、ここに反映されます。"
   },
   "help_open_shortcuts": {
     "message": "ショートカット設定を開く"
@@ -74,9 +95,6 @@
   "status_opening_random": {
     "message": "ランダムブックマークを開いています..."
   },
-  "status_failed_jump": {
-    "message": "移動に失敗しました。"
-  },
   "status_open_pixiv_bookmarks": {
     "message": "pixivのブックマークページを開いてください。"
   },
@@ -94,14 +112,5 @@
   },
   "status_failed_remove": {
     "message": "ブックマークの削除に失敗しました。"
-  },
-  "status_no_active_tab": {
-    "message": "アクティブなタブがありません。"
-  },
-  "status_open_pixiv_tab": {
-    "message": "pixivのタブを開いてください。"
-  },
-  "status_unknown_error": {
-    "message": "不明なエラーです。"
   }
 }

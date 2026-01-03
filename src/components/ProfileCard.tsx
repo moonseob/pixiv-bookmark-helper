@@ -1,8 +1,8 @@
-import { Icon, LoadingSpinner } from '@charcoal-ui/react';
+import { Button, Icon, LoadingSpinner } from '@charcoal-ui/react';
 import styled from 'styled-components';
 import type { AuthStatus } from '@/popup/hooks/useLoginStatus';
-import type { UserProfile } from '@/storage/userProfile';
 import { t } from '@/shared/i18n';
+import type { UserProfile } from '@/storage/userProfile';
 
 export default function ProfileCard({
   authStatus,
@@ -21,7 +21,7 @@ export default function ProfileCard({
     );
   }
   return (
-    <Container onClick={onRecheck}>
+    <Container>
       <AvatarWrapper>
         <img src={profile?.image} alt='' />
       </AvatarWrapper>
@@ -34,32 +34,28 @@ export default function ProfileCard({
         <Sub>{profile?.name}</Sub>
       </div>
       <div className='flex-spacer' />
-      <span style={{ display: 'flex' }}>
+      <RefreshButton
+        variant='Default'
+        title={t('main_refresh_user')}
+        aria-label={t('main_refresh_user')}
+        onClick={onRecheck}
+      >
         <Icon name='24/Reload' />
-      </span>
+      </RefreshButton>
     </Container>
   );
 }
 
 const Container = styled.div`
-  background: var(--charcoal-surface2);
-  border-radius: 8px;
-  margin: 8px;
-  margin-top: 0;
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 0;
   gap: 8px;
   text-align: start;
   color: var(--charcoal-text1);
-  transition: background-color 0.2s;
   pixiv-icon {
     --size: 16px;
-    color: var(--charcoal-text2)
-  }
-  &:hover {
-    background: var(--charcoal-surface3);
-
+    color: var(--charcoal-text2);
   }
 `;
 
@@ -71,7 +67,6 @@ const AvatarWrapper = styled.div`
   border-radius: 50%;
   overflow: hidden;
   img { width: 100%; }
-
 `;
 
 const Name = styled.p`
@@ -90,4 +85,14 @@ const Sub = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const RefreshButton = styled(Button)`
+  height: 24px;
+  min-height: 24px;
+  padding: 0 4px;
+  color: var(--charcoal-text3);
+  pixiv-icon {
+    --size: 16px;
+  }
 `;

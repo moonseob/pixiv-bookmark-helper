@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { queryActiveTab, sendMessage } from '@/pixiv/chrome';
 import { isPixivBookmarksUrl } from '@/pixiv/urls';
 import type { SetStatus } from '@/popup/types';
-import { ExtensionMessageType } from '@/shared/messages';
 import { t } from '@/shared/i18n';
+import { ExtensionMessageType } from '@/shared/messages';
 
 interface JumpResponse {
   ok: boolean;
@@ -14,6 +14,7 @@ export const useRandomJump = (
   setStatus: SetStatus,
   defaultStatus: string,
   isLoggedIn: boolean,
+  tagName: string,
 ) => {
   const [isJumping, setIsJumping] = useState(false);
 
@@ -32,6 +33,7 @@ export const useRandomJump = (
       }
       const response = await sendMessage<JumpResponse>({
         type: ExtensionMessageType.RandomRequest,
+        tagName,
       });
       if (!response.ok) {
         throw new Error(response.error ?? 'Failed to jump.');

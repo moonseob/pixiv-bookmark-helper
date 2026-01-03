@@ -1,7 +1,7 @@
 import { IconButton } from '@charcoal-ui/react';
 import styled from 'styled-components';
-import logo from '/logo.png?url';
 import { t } from '@/shared/i18n';
+import logo from '/logo.png?url';
 
 type AppBarProps = {
   title?: string;

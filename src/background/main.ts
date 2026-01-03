@@ -5,9 +5,13 @@ import {
 } from '@/pixiv/api';
 import { queryActiveTab } from '@/pixiv/chrome';
 import { DEFAULT_BOOKMARKS_PER_PAGE } from '@/pixiv/constants';
-import { buildArtworkUrl } from '@/pixiv/urls';
+import { buildArtworkUrl, parseBookmarkTagFromUrl } from '@/pixiv/urls';
 import { ExtensionMessageType } from '@/shared/messages';
 import { getBookmarkStats, setBookmarkStats } from '@/storage/bookmarkStats';
+import {
+  getBookmarkTagFilter,
+  setBookmarkTagFilter,
+} from '@/storage/bookmarkTagFilter';
 import { getRecentWorkIds, setRecentWorkIds } from '@/storage/recentHistory';
 import { getSessionUser, setSessionUser } from '@/storage/sessionUser';
 
@@ -45,6 +49,18 @@ const createTab = (url: string) =>
     });
   });
 
+const getTabById = (tabId: number) =>
+  new Promise<chrome.tabs.Tab>((resolve, reject) => {
+    chrome.tabs.get(tabId, (tab) => {
+      const err = chrome.runtime.lastError;
+      if (err) {
+        reject(new Error(err.message));
+        return;
+      }
+      resolve(tab);
+    });
+  });
+
 const navigateToWork = async (tabId: number | undefined, workId: string) => {
   const url = buildArtworkUrl(workId);
   if (tabId) {
@@ -52,6 +68,12 @@ const navigateToWork = async (tabId: number | undefined, workId: string) => {
     return;
   }
   await createTab(url);
+};
+
+const syncTagFromTab = (tab?: chrome.tabs.Tab) => {
+  const tagName = parseBookmarkTagFromUrl(tab?.url);
+  if (tagName === null) return;
+  void setBookmarkTagFilter(tagName);
 };
 
 const showBadge = (text: string, bgColor?: string) =>
@@ -124,17 +146,17 @@ const buildStats = async (userId: string, tagName = '') => {
   };
 };
 
-const ensureBookmarkStats = async () => {
-  const stored = await getBookmarkStats();
+const ensureBookmarkStats = async (tagName: string) => {
   const cachedUser = await getSessionUser();
   const cachedUserId = cachedUser?.userId ?? null;
   const resolvedUserId = cachedUserId ?? (await resolveUserIdFromRedirect());
 
+  const stored = await getBookmarkStats(resolvedUserId, tagName);
   if (stored?.userId === resolvedUserId) {
     return stored;
   }
 
-  const stats = await buildStats(resolvedUserId);
+  const stats = await buildStats(resolvedUserId, tagName);
   await setBookmarkStats(stats);
   if (!cachedUserId) {
     await setSessionUser(resolvedUserId);
@@ -142,8 +164,8 @@ const ensureBookmarkStats = async () => {
   return stats;
 };
 
-const fetchRandomWorkId = async () => {
-  const stats = await ensureBookmarkStats();
+const fetchRandomWorkId = async (tagName: string) => {
+  const stats = await ensureBookmarkStats(tagName);
 
   const perPage = Math.max(1, stats.perPage || DEFAULT_BOOKMARKS_PER_PAGE);
   const total =
@@ -192,7 +214,7 @@ const isPixivUrl = (url?: string) => {
   }
 };
 
-const handleJumpRequest = async () => {
+const handleJumpRequest = async (tagName: string) => {
   const tab = await queryActiveTab();
   if (!tab) {
     throw new Error('No active tab.');
@@ -201,14 +223,29 @@ const handleJumpRequest = async () => {
     throw new Error('Open a Pixiv tab first.');
   }
 
-  const workId = await fetchRandomWorkId();
+  const workId = await fetchRandomWorkId(tagName);
   await navigateToWork(tab.id, workId);
   await showBadge('🚀');
 };
 
+chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
+  if (!changeInfo.url) return;
+  syncTagFromTab(tab);
+});
+
+chrome.tabs.onActivated.addListener(({ tabId }) => {
+  getTabById(tabId)
+    .then((tab) => {
+      syncTagFromTab(tab);
+    })
+    .catch(() => {
+      // ignore tab access errors
+    });
+});
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message?.type !== ExtensionMessageType.RandomRequest) return;
-  handleJumpRequest()
+  handleJumpRequest(message.tagName ?? '')
     .then(() => sendResponse({ ok: true }))
     .catch((error) => {
       const messageText =
@@ -242,7 +279,18 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
 chrome.commands.onCommand.addListener((command) => {
   if (command !== 'jump-random-bookmark') return;
-  handleJumpRequest().catch((error) => {
-    console.warn(LOG_PREFIX, error instanceof Error ? error.message : error);
-  });
+  (async () => {
+    try {
+      const tagFilter = await getBookmarkTagFilter();
+      await handleJumpRequest(tagFilter.tagName ?? '');
+    } catch (error) {
+      await handleJumpRequest('').catch((innerError) => {
+        console.warn(
+          LOG_PREFIX,
+          innerError instanceof Error ? innerError.message : innerError,
+        );
+      });
+      console.warn(LOG_PREFIX, error instanceof Error ? error.message : error);
+    }
+  })();
 });
