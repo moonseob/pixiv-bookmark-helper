@@ -105,8 +105,10 @@ const showBadge = (text: string, bgColor?: string) =>
     });
   });
 
-const extractUserId = (url?: string) =>
-  url?.match(/pixiv\.net\/users\/(\d+)/)?.[1] ?? null;
+const extractUserId = (url?: string) => {
+  if (!url) return null;
+  return url.match(/pixiv\.net\/(?:[a-z]{2}\/)?users\/(\d+)/)?.[1] ?? null;
+};
 
 const resolveUserIdFromRedirect = async () => {
   let response: Response;

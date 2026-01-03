@@ -37,7 +37,7 @@ const runCodex = (prompt) => {
       prompt,
     ],
     {
-    stdio: 'inherit',
+      stdio: 'inherit',
     },
   );
 
