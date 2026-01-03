@@ -1,52 +1,46 @@
-# React + Vite + CRXJS
+# pixiv Bookmark Helper
 
-This template helps you quickly start developing Chrome extensions with React, TypeScript and Vite. It includes the CRXJS Vite plugin for seamless Chrome extension development.
+A lightweight browser extension that helps you navigate and manage pixiv bookmarks.
+Role: Popup-only WebExtension for bookmark navigation and quick actions on pixiv.net.
+
+## Overview
+- Works only on `www.pixiv.net` and requires you to be logged in.
+- UI is shown through the extension popup (no content scripts).
+- Login state is checked and cached in session storage.
 
 ## Features
+- Jump to a random bookmark.
+- Login-aware UI state and pixiv-only activation.
 
-- React with TypeScript
-- TypeScript support
-- Vite build tool
-- CRXJS Vite plugin integration
-- Chrome extension manifest configuration
-
-## Quick Start
-
+## Install
 1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+2. Build the extension:
+   ```bash
+   pnpm build
+   ```
+3. Open `chrome://extensions` in Chrome (or Chromium-based browser).
+4. Enable Developer mode.
+5. Click "Load unpacked" and select the `dist` directory.
 
-```bash
-npm install
-```
+## Development
+- Use the project Node.js version with pnpm:
+  ```bash
+  pnpm env use --global $(cat .node-version)
+  ```
+- Start the dev server:
+  ```bash
+  pnpm dev
+  ```
+- Load the extension from the dev output if prompted by CRXJS, or continue using the `dist` folder after a build.
 
-2. Start development server:
+## Future Goals
+- Allow unbookmarking via a button click.
+- Navigate to previous/next bookmark with left/right arrow keys (pixiv mobile app-style).
+- Support bookmark tags.
+- Support more bookmark types (illustrations/manga, novels, collections).
 
-```bash
-npm run dev
-```
-
-3. Open Chrome and navigate to `chrome://extensions/`, enable "Developer mode", and load the unpacked extension from the `dist` directory.
-
-4. Build for production:
-
-```bash
-npm run build
-```
-
-## Project Structure
-
-- `src/popup/` - Extension popup UI
-- `src/content/` - Content scripts
-- `manifest.config.ts` - Chrome extension manifest configuration
-
-## Documentation
-
-- [React Documentation](https://reactjs.org/)
-- [Vite Documentation](https://vitejs.dev/)
-- [CRXJS Documentation](https://crxjs.dev/vite-plugin)
-
-## Chrome Extension Development Notes
-
-- Use `manifest.config.ts` to configure your extension
-- The CRXJS plugin automatically handles manifest generation
-- Content scripts should be placed in `src/content/`
-- Popup UI should be placed in `src/popup/`
+## Disclaimer
+This project is not affiliated with pixiv Inc. Use at your own risk; any disadvantages or damages resulting from using this program are the responsibility of each user.
