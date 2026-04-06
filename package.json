@@ -48,7 +48,7 @@
     "husky": "^9.1.7",
     "playwright": "^1.58.2",
     "typescript": "~5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^7.3.2",
     "vite-plugin-zip-pack": "^1.2.4"
   },
   "packageManager": "pnpm@10.28.1"
